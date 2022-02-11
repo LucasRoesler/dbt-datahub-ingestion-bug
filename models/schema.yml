@@ -1,0 +1,48 @@
+version: 2
+
+sources:
+  - name: citibike
+    database: citibike_tripdata
+    schema: public
+    tables:
+      - name: trips
+        description: raw trip data from citibike
+        # data is produced monthly, so we assume
+        # at least one ride per month and the data
+        # is stale if we don't have the most recent month
+        freshness:
+          warn_after: { count: 30, period: day }
+          error_after: { count: 35, period: day }
+        loaded_at_field: started_at
+
+models:
+  - name: durations
+    description: "Trip duration"
+    columns:
+      - name: ride_id
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
+      - name: duration_seconds
+        description: the trip duration in seconds
+        tests:
+          - not_null
+  - name: averages
+    description: "Trip average duration by day and type"
+    columns:
+      - name: date
+        description: "The date of the average"
+        tests:
+          - not_null
+      - name: type
+        description: "The ride type"
+        tests:
+          - accepted_values:
+              values:
+                - docked_bike
+                - classic_bike
+      - name: duration_seconds
+        description: the average trip duration in seconds
+        tests:
+          - not_null

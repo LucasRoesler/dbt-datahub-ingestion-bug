@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_USER: demo
+      POSTGRES_DB: citibike_tripdata
+      PGDATA: /var/lib/postgresql/data
+      DATAFILE: JC-202110-citibike-tripdata.csv
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data/raw:/docker-entrypoint-initdb.d

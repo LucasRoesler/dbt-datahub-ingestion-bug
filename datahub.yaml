@@ -1,0 +1,17 @@
+source:
+  type: "dbt"
+  config:
+    # Coordinates
+    manifest_path: "./target/manifest.json"
+    catalog_path: "./target/catalog.json"
+    sources_path: "./target/sources.json"
+
+    # Options
+    target_platform: "snowflake"
+    load_schemas: True
+    disable_dbt_node_creation: False
+
+sink:
+  type: "datahub-rest"
+  config:
+    server: "http://localhost:8080"
