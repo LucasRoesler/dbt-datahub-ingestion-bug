@@ -1,0 +1,5 @@
+JC-202110-citibike-tripdata.csv.zip
+data/raw/*.csv
+target
+.venv
+dbt_packages
